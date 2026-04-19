@@ -1,0 +1,44 @@
+# Bundler
+/.bundle/
+vendor/bundle/
+Gemfile.lock
+
+# Gem build artifacts
+*.gem
+/pkg/
+
+# Temporary and log files
+/log/
+tmp/
+*.log
+
+# Coverage and test reports
+/coverage/
+spec/reports/
+test/tmp/
+test/version_tmp/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Environment and secrets
+.env
+.env*.local
+.envrc
+
+# RuboCop / Standard specific (if using remote config)
+.rubocop-*
+.standard_cache/
+
+# Ruby version managers (optional but common)
+.rvmrc
+.ruby-version
+.ruby-gemset
+
+# Misc
+/.config/
+InstalledFiles
