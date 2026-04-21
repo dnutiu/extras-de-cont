@@ -2,7 +2,7 @@
 
 module ExtrasDeCont
   module Rules
-    class Revolut
+    class Revolut < Rules::Base
     end
   end
 end

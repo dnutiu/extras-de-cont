@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+module ExtrasDeCont
+  class Transaction
+    # The fields of the Struct
+    attr_reader date: Date
+    attr_reader description: String
+    attr_reader amount: Float   # or Numeric / BigDecimal if you prefer
+
+    # Constructor with keyword arguments (because you used keyword_init: true)
+    def initialize: (date: Date, description: String, amount: Float) -> void
+  end
+end

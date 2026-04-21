@@ -1,0 +1,12 @@
+# frozen_string_literal: true
+
+module ExtrasDeCont
+
+  class Parser
+    @file: File
+
+    def parse_with: (Rules::Base) -> Array[Transaction]
+
+    def text: -> String
+  end
+end

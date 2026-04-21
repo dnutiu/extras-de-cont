@@ -1,0 +1,8 @@
+# sig/extras_de_cont.rbs
+# frozen_string_literal: true
+
+module ExtrasDeCont
+  def parse: (String | Pathname | IO, bank: Symbol) -> Array[Transaction]
+
+  BANK_RULES: Hash[Symbol, untyped]
+end

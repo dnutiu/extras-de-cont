@@ -2,7 +2,7 @@
 
 module ExtrasDeCont
   module Rules
-    class UniCredit
+    class UniCredit < Rules::Base
     end
   end
 end
