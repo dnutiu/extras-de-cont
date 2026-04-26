@@ -4,18 +4,18 @@
 
 - Extended support for parsing Revolut statements in multiple currencies.
 
-```
-      CURRENCY_SYMBOLS = {
-        "$" => "USD",
-        "€" => "EUR",
-        "£" => "GBP",
-        "zł" => "PLN",
-        "Kč" => "CZK",
-        "Ft" => "HUF",
-        "лв" => "BGN",
-        "₺" => "TRY",
-        "₴" => "UAH"
-      }.freeze
+```ruby
+CURRENCY_SYMBOLS = {
+"$" => "USD",
+"€" => "EUR",
+"£" => "GBP",
+"zł" => "PLN",
+"Kč" => "CZK",
+"Ft" => "HUF",
+"лв" => "BGN",
+"₺" => "TRY",
+"₴" => "UAH"
+}.freeze
 ```
 
 # v1.0.0
