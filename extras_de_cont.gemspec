@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.licenses = ["GPLv3"]
   s.summary = "A simple library which helps you extract transactions from a PDF bank statement."
   s.description = <<~TEXT
-    "A simple library which helps you extract transactions from a PDF bank statement.
-    Fine tuned for Romanian bank statements."
+    A simple library which helps you extract transactions from a PDF bank statement.
+    Fine tuned for Romanian bank statements.
   TEXT
   s.authors = ["Denis Nutiu"]
   s.email = "dnutiu@nuculabs.dev"
