@@ -5,6 +5,8 @@ module ExtrasDeCont
   class Parser
     @file: File
 
+    def initialize: (File | String | Pathname | IO) -> void
+
     def parse_with: (Rules::Base) -> Array[Transaction]
 
     def text: -> String

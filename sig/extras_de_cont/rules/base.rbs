@@ -1,7 +1,7 @@
 module ExtrasDeCont
   module Rules
     class Base
+      def parse: (String text) -> Array[Transaction]
     end
   end
 end
-

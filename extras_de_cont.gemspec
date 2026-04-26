@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.authors = ["Denis Nutiu"]
   s.email = "dnutiu@nuculabs.dev"
   s.homepage = "https://nuculabs.dev"
-  s.metadata = { "source_code_uri" => "https://github.com/example/example" }
+  s.metadata = {"source_code_uri" => "https://gitlab.nuculabs.dev/dnutiu/extras-de-cont"}
   s.required_ruby_version = ">= 3.0.0"
 
   # Files to include in the gem
@@ -20,4 +20,6 @@ Gem::Specification.new do |s|
 
   # Optional but recommended
   s.require_paths = ["lib"]
+
+  s.add_dependency "pdf-reader", "~> 2.15"
 end

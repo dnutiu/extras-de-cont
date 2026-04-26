@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "extras_de_cont/parser"
+require "extras_de_cont/rules/base"
 require "extras_de_cont/rules/revolut"
 require "extras_de_cont/rules/unicredit"
 
@@ -23,8 +24,8 @@ module ExtrasDeCont
       rule_class = BANK_RULES[bank]
       raise ArgumentError, "Unsupported bank: #{bank}. Supported banks: #{BANK_RULES.keys.join(", ")}" unless rule_class
 
-      parser = Parser.new(file)
-      parser.parse_with(rule_class.new)
+      p = Parser.new(file)
+      p.parse_with(rule_class.new)
     end
   end
 end

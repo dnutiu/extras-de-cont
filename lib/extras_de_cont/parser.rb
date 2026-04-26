@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "pdf-reader"
+require "stringio"
 
 module ExtrasDeCont
   # Utility class for parsing a pdf file and extracting transaction data.
@@ -30,8 +31,7 @@ module ExtrasDeCont
     # @param rule [ExtrasDeCont::Rule] - The parsing rule specific to the bank.
     # @return [Array<ExtrasDeCont::Transaction>]
     def parse_with(rule)
-      raise NotImplementedError("not yet implemented #{rule}")
+      rule.parse(text)
     end
   end
 end
-
