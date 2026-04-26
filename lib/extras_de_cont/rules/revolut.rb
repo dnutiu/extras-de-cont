@@ -22,13 +22,27 @@ module ExtrasDeCont
         "Get help directly in app",
         "Scan the QR code",
         "RON Statement",
+        " Statement",
         "Generated on the ",
         "Revolut Bank UAB",
         "© "
       ].freeze
 
+      CURRENCY_SYMBOLS = {
+        "$" => "USD",
+        "€" => "EUR",
+        "£" => "GBP",
+        "zł" => "PLN",
+        "Kč" => "CZK",
+        "Ft" => "HUF",
+        "лв" => "BGN",
+        "₺" => "TRY",
+        "₴" => "UAH"
+      }.freeze
       DATE_PREFIX = /\A(?<date>[A-Z][a-z]{2} \d{1,2}, \d{4})\b/
-      AMOUNT = /-?\d[\d,]*\.\d{2} [A-Z]{3}/
+      NUMBER = /-?\d[\d,]*\.\d{2}/
+      CURRENCY_SYMBOL = Regexp.union(CURRENCY_SYMBOLS.keys.sort_by { |symbol| -symbol.length })
+      AMOUNT = /(?:#{NUMBER} [A-Z]{3}|#{CURRENCY_SYMBOL}#{NUMBER}|#{NUMBER} ?#{CURRENCY_SYMBOL})/
 
       def parse(text)
         transactions = []
@@ -105,7 +119,7 @@ module ExtrasDeCont
           parse_date(match[:date]),
           description,
           amount,
-          amount_string.split.last
+          parse_currency(amount_string)
         )
       end
 
@@ -114,7 +128,28 @@ module ExtrasDeCont
       end
 
       def parse_amount(value)
-        value.split.first.delete(",").to_f
+        numeric_value(value).delete(",").to_f
+      end
+
+      def parse_currency(value)
+        symbol = currency_symbol(value)
+        return CURRENCY_SYMBOLS.fetch(symbol) if symbol
+
+        value.split.last
+      end
+
+      def numeric_value(value)
+        symbol = currency_symbol(value)
+        return value.delete_prefix(symbol) if symbol && value.start_with?(symbol)
+        return value.delete_suffix(symbol).strip if symbol
+
+        value.split.first
+      end
+
+      def currency_symbol(value)
+        CURRENCY_SYMBOLS.keys.find do |symbol|
+          value.start_with?(symbol) || value.end_with?(symbol)
+        end
       end
 
       def section_header?(line)
@@ -147,11 +182,12 @@ module ExtrasDeCont
         amount_matches = row.to_enum(:scan, AMOUNT).map { Regexp.last_match }
         return if amount_matches.empty?
 
-        transaction_match = if table.fetch(:has_balance)
-                              amount_matches[-2] if amount_matches.length > 1
-                            else
-                              amount_matches[-1]
-                            end
+        transaction_match =
+          if table.fetch(:has_balance)
+            amount_matches[-2] if amount_matches.length > 1
+          else
+            amount_matches[-1]
+          end
         return if transaction_match.nil?
 
         description = row[date_match.end(0)...transaction_match.begin(0)].to_s.strip

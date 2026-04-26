@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
 
 require "extras_de_cont"
 
-file = ARGV[0] || "/home/dnutiu/Documents/tranzactii_revolut.pdf"
+file = ARGV[0] || "/home/dnutiu/Documents/tranzactii_eur.pdf"
 
 if file.nil? || file.strip.empty?
   warn "Usage: bundle exec ruby -Ilib bin/main /path/to/statement.pdf"
