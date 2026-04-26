@@ -5,6 +5,7 @@ require "extras_de_cont/transaction"
 
 module ExtrasDeCont
   module Rules
+    # Rules for parsing Revolut bank statements.
     class Revolut < Rules::Base
       SECTION_HEADERS = [
         "Pending from ",
@@ -147,12 +148,10 @@ module ExtrasDeCont
         return if amount_matches.empty?
 
         transaction_match = if table.fetch(:has_balance)
-          if amount_matches.length > 1
-            amount_matches[-2]
-          end
-        else
-          amount_matches[-1]
-        end
+                              amount_matches[-2] if amount_matches.length > 1
+                            else
+                              amount_matches[-1]
+                            end
         return if transaction_match.nil?
 
         description = row[date_match.end(0)...transaction_match.begin(0)].to_s.strip

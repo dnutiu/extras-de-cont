@@ -11,6 +11,7 @@ class RevolutRuleTest < Minitest::Test
 
     def initialize(text)
       @text = text
+      super
     end
   end
 
@@ -117,7 +118,9 @@ class RevolutRuleTest < Minitest::Test
     assert_equal(-125.55, transactions.first.amount)
     assert_equal "RON", transactions.first.currency
 
-    account_credit = transactions.find { |transaction| transaction.description.include?("Apple Pay top-up") && transaction.amount.between?(999.99, 1000.01) }
+    account_credit = transactions.find do |transaction|
+      transaction.description.include?("Apple Pay top-up") && transaction.amount.between?(999.99, 1000.01)
+    end
     assert account_credit
 
     exchange_debit = transactions.find { |transaction| transaction.description.include?("Exchanged to USD") }
@@ -126,7 +129,9 @@ class RevolutRuleTest < Minitest::Test
     deposit_credit = transactions.find { |transaction| transaction.description.include?("Savings Account' for Apr 1") }
     assert_equal 1.11, deposit_credit.amount
 
-    deposit_debit = transactions.find { |transaction| transaction.description.start_with?("From RON Savings Account") && transaction.amount.negative? }
+    deposit_debit = transactions.find do |transaction|
+      transaction.description.start_with?("From RON Savings Account") && transaction.amount.negative?
+    end
     assert_equal(-15_006.66, deposit_debit.amount)
   end
 
