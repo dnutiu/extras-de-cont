@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "extras_de_cont"
-  s.version = "0.1.0"
+  s.version = "1.0.0"
   s.licenses = ["GPLv3"]
   s.summary = "A simple library which helps you extract transactions from a PDF bank statement."
   s.description = <<~TEXT
