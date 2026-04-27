@@ -11,15 +11,21 @@ module ExtrasDeCont
         "Pending from ",
         "Account transactions from ",
         "Reverted from ",
-        "Deposit transactions from "
+        "Deposit transactions from ",
+        "Transactions from "
       ].freeze
 
       DOCUMENT_NOISE_HEADERS = [
+        "Account statement",
         "Balance summary",
         "The balance on your statement might differ",
+        "There were no transactions during this period",
+        "Transaction types",
+        "Your funds are held and protected by a licensed bank",
         "Report lost or stolen card",
         "+",
         "Get help directly in app",
+        "Get help directly In app",
         "Scan the QR code",
         "RON Statement",
         " Statement",
@@ -39,8 +45,9 @@ module ExtrasDeCont
         "₺" => "TRY",
         "₴" => "UAH"
       }.freeze
-      DATE_PREFIX = /\A(?<date>[A-Z][a-z]{2} \d{1,2}, \d{4})\b/
-      NUMBER = /-?\d[\d,]*\.\d{2}/
+      DATE_FORMATS = ["%b %e, %Y", "%e %b %Y"].freeze
+      DATE_PREFIX = /\A(?<date>(?:[A-Z][a-z]{2} \d{1,2}, \d{4}|\d{1,2} [A-Z][a-z]{2} \d{4}))\b/
+      NUMBER = /-?(?:\d{1,3}(?:[ ,]\d{3})+|\d+)\.\d{2}/
       CURRENCY_SYMBOL = Regexp.union(CURRENCY_SYMBOLS.keys.sort_by { |symbol| -symbol.length })
       AMOUNT = /(?:#{NUMBER} [A-Z]{3}|#{CURRENCY_SYMBOL}#{NUMBER}|#{NUMBER} ?#{CURRENCY_SYMBOL})/
 
@@ -124,11 +131,15 @@ module ExtrasDeCont
       end
 
       def parse_date(value)
-        Date.strptime(value, "%b %e, %Y")
+        DATE_FORMATS.each do |format|
+          return Date.strptime(value, format)
+        rescue Date::Error
+          next
+        end
       end
 
       def parse_amount(value)
-        numeric_value(value).delete(",").to_f
+        numeric_value(value).delete(", ").to_f
       end
 
       def parse_currency(value)
@@ -143,7 +154,7 @@ module ExtrasDeCont
         return value.delete_prefix(symbol) if symbol && value.start_with?(symbol)
         return value.delete_suffix(symbol).strip if symbol
 
-        value.split.first
+        value.sub(/\s+[A-Z]{3}\z/, "")
       end
 
       def currency_symbol(value)

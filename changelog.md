@@ -3,6 +3,7 @@
 # v1.1.0
 
 - Extended support for parsing Revolut statements in multiple currencies.
+- Extend parser to parse Revolut Business statements.
 
 ```ruby
 CURRENCY_SYMBOLS = {

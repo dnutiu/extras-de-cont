@@ -156,6 +156,81 @@ class RevolutRuleTest < Minitest::Test
                           Transaction Id: eeeeeeee-ffff-4111-8222-333333333333
   TEXT
 
+  BUSINESS_SAMPLE_STATEMENT = <<~TEXT
+    Account statement
+
+    Generated on the April 1, 2026
+
+    SAMPLE BUSINESS LTD
+
+    Balance summary
+
+    Opening balance                                    €0.00
+    Money in                                           €0.00
+    Money out                                          €0.00
+    Closing balance                                    €0.00
+
+    Your funds are held and protected by a licensed bank.
+
+    Transactions from March 1, 2026 to March 31, 2026
+
+    Date (UTC)                        Description                                      Money out                   Money in                Balance
+
+                                                       There were no transactions during this period
+
+    Transaction types
+
+    Card payments (CAR)                     Money sent (MOS)                 Money received (MOR)                  Money added (MOA)
+    €0.00                                   €0.00                            €0.00                                 €0.00
+
+    Transactions from March 1, 2026 to March 31, 2026
+
+    Date (UTC)                         Description                                       Money out             Money in              Balance
+
+    25 Mar 2026          MOS           To SAMPLE ACCOUNTANT - EXPERT                     388.41 RON                                470.61 RON
+                                       Accounting services according to contract
+                                       193/12.11.2025 - February 2026
+                                       ID: 11111111-2222-4333-8444-555555555555
+                                       To account: RO00BANK0000111122223333
+
+    10 Mar 2026          FEE           Revolut Business Fee - Basic plan fee              50.00 RON                                859.02 RON
+                                       ID: 22222222-3333-4444-8555-666666666666
+
+    Transaction types
+
+    Card payments (CAR)                   Money sent (MOS)                Money received (MOR)                Money added (MOA)
+    0.00 RON                              - 388.41 RON                    0.00 RON                            0.00 RON
+
+    Transactions from March 1, 2026 to March 31, 2026
+
+    Date (UTC)                          Description                                          Money out              Money in               Balance
+
+    31 Mar 2026           MOS           To SAMPLE OWNER - Transfer to personal                 $1 100.00                                    $200.00
+                                        account
+                                        ID: 33333333-4444-4555-8666-777777777777
+
+    31 Mar 2026           MOA           Money added from SAMPLE CLIENT LLP -                                         $1 000.00            $1 200.00
+                                        AGREEMENT NO SAMPLE-2026 FROM
+                                        25.11.2025
+                                        ID: 44444444-5555-4666-8777-888888888888
+                                        From account: CY00000000000000000000000000
+                                        To account: RO00REVO0000111122223333
+
+    2 Mar 2026            MOS           To SAMPLE OWNER - Transfer to personal                 $1 000.00                                      $0.00
+                                        account
+                                        ID: 55555555-6666-4777-8888-999999999999
+
+    2 Mar 2026            MOA           Money added from SAMPLE CLIENT LLP -                                         $1 000.00            $200.00
+                                        AGREEMENT NO SAMPLE-2026 FROM
+                                        25.11.2025
+                                        ID: 66666666-7777-4888-8999-aaaaaaaaaaaa
+                                        From account: CY00000000000000000000000000
+                                        To account: RO00REVO0000111122223333
+
+    Report lost or stolen card
+    © 2026 Revolut Bank UAB Vilnius Sucursala București
+  TEXT
+
   def test_parses_revolut_statement_sections
     transactions = ExtrasDeCont::Rules::Revolut.new.parse(SAMPLE_STATEMENT)
 
@@ -236,6 +311,38 @@ class RevolutRuleTest < Minitest::Test
     assert_equal "UAH", transactions[7].currency
   end
 
+  def test_parses_revolut_business_statement
+    transactions = ExtrasDeCont::Rules::Revolut.new.parse(BUSINESS_SAMPLE_STATEMENT)
+
+    assert_equal 6, transactions.size
+
+    assert_equal Date.new(2026, 3, 25), transactions[0].date
+    assert_equal(-388.41, transactions[0].amount)
+    assert_equal "RON", transactions[0].currency
+    assert_includes transactions[0].description, "MOS"
+    assert_includes transactions[0].description, "Accounting services"
+
+    assert_equal Date.new(2026, 3, 10), transactions[1].date
+    assert_equal(-50.0, transactions[1].amount)
+    assert_equal "RON", transactions[1].currency
+    assert_includes transactions[1].description, "Basic plan fee"
+
+    assert_equal Date.new(2026, 3, 31), transactions[2].date
+    assert_equal(-1100.0, transactions[2].amount)
+    assert_equal "USD", transactions[2].currency
+    assert_includes transactions[2].description, "Transfer to personal"
+
+    assert_equal Date.new(2026, 3, 31), transactions[3].date
+    assert_equal 1000.0, transactions[3].amount
+    assert_equal "USD", transactions[3].currency
+    assert_includes transactions[3].description, "AGREEMENT NO SAMPLE-2026"
+
+    assert_equal(-1000.0, transactions[4].amount)
+    assert_equal "USD", transactions[4].currency
+    assert_equal 1000.0, transactions[5].amount
+    assert_equal "USD", transactions[5].currency
+  end
+
   def test_parser_delegates_to_revolut_rule
     parser = TestParser.new(SAMPLE_STATEMENT)
     transactions = parser.parse_with(ExtrasDeCont::Rules::Revolut.new)
@@ -269,6 +376,23 @@ class RevolutRuleTest < Minitest::Test
       transaction.description.start_with?("From RON Savings Account") && transaction.amount.negative?
     end
     assert_equal(-15_006.66, deposit_debit.amount)
+  end
+
+  def test_parses_business_extracted_pdf_text_when_available
+    pdf_text_path = File.expand_path("../../../pdf_business.txt", __dir__)
+    skip "pdf_business.txt is not available" unless File.exist?(pdf_text_path)
+
+    transactions = ExtrasDeCont::Rules::Revolut.new.parse(File.read(pdf_text_path))
+
+    assert_equal 6, transactions.size
+    assert_equal(-388.41, transactions[0].amount)
+    assert_equal "RON", transactions[0].currency
+    assert_equal(-50.0, transactions[1].amount)
+    assert_equal(-1800.0, transactions[2].amount)
+    assert_equal "USD", transactions[2].currency
+    assert_equal 1000.0, transactions[3].amount
+    assert_equal(-1000.0, transactions[4].amount)
+    assert_equal 1000.0, transactions[5].amount
   end
 
   def test_parses_revolut_pdf_when_available
