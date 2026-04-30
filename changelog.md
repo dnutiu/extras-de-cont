@@ -2,22 +2,11 @@
 
 # v1.1.0
 
-- Extended support for parsing Revolut statements in multiple currencies.
 - Extend parser to parse Revolut Business statements.
 
-```ruby
-CURRENCY_SYMBOLS = {
-"$" => "USD",
-"€" => "EUR",
-"£" => "GBP",
-"zł" => "PLN",
-"Kč" => "CZK",
-"Ft" => "HUF",
-"лв" => "BGN",
-"₺" => "TRY",
-"₴" => "UAH"
-}.freeze
-```
+- Extended support for parsing Revolut statements in multiple currencies.
+
+- Added support for unicredit statements in RON and EUR.
 
 # v1.0.0
 
