@@ -38,11 +38,12 @@ ruby -Ilib:test test/revolut_rule_test.rb
 
 ## Supported Banks
 
-| Bank | Symbol | Currencies | Features |
-|---|---|---|---|
-| Revolut | `:revolut` | RON, EUR, USD, GBP, PLN, CZK, HUF, BGN, TRY, UAH | Personal & Business, multi-section, symbol currencies |
+| Bank      | Symbol       | Currencies | Features                                               |
+|-----------|--------------|---|--------------------------------------------------------|
+| Revolut   | `:revolut`   | RON, EUR, USD, GBP, PLN, CZK, HUF, BGN, TRY, UAH | Personal & Business, multi-section, symbol currencies  |
 | UniCredit | `:unicredit` | RON, EUR | Romanian month names, page breaks, transaction markers |
-| BRD | `:brd` | RON, EUR | Below-line amounts, Romanian number format |
+| BRD       | `:brd`       | RON, EUR | Below-line amounts, Romanian number format             |
+| ING       | `:ing`       | RON | Normal bank statements in RON                          |
 
 ## Development
 
