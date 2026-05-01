@@ -1,0 +1,7 @@
+module ExtrasDeCont
+  module Rules
+    class Brd < Rules::Base
+      def parse: (String text) -> Array[Transaction]
+    end
+  end
+end

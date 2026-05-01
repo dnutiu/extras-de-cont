@@ -2,6 +2,8 @@
 
 - Add agent skill for adding bank statement parsing rules.
 
+- Add support for parsing BRD statements.
+
 # v1.1.0
 
 - Extend parser to parse Revolut Business statements.
