@@ -1,4 +1,6 @@
+# v.1.2.0
 
+- Add agent skill for adding bank statement parsing rules.
 
 # v1.1.0
 
