@@ -14,8 +14,8 @@ Gem::Specification.new do |s|
   s.authors = ["Denis Nutiu"]
   s.email = "dnutiu@nuculabs.dev"
   s.homepage = "https://nuculabs.dev"
-  s.metadata = { "source_code_uri" => "https://gitlab.nuculabs.dev/dnutiu/extras-de-cont",
-                 "rubygems_mfa_required" => "true" }
+  s.metadata = {"source_code_uri" => "https://gitlab.nuculabs.dev/dnutiu/extras-de-cont",
+                 "rubygems_mfa_required" => "true"}
   s.required_ruby_version = ">= 3.0.0"
 
   # Files to include in the gem
