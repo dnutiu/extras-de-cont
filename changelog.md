@@ -1,3 +1,7 @@
+# v.1.3.0
+
+- Add support for parsing ING Bank statements in RON.
+
 # v.1.2.0
 
 - Add agent skill for adding bank statement parsing rules.

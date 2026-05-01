@@ -3,6 +3,7 @@
 require "extras_de_cont/parser"
 require "extras_de_cont/rules/base"
 require "extras_de_cont/rules/brd"
+require "extras_de_cont/rules/ing"
 require "extras_de_cont/rules/revolut"
 require "extras_de_cont/rules/unicredit"
 
@@ -11,6 +12,7 @@ module ExtrasDeCont
   # Map of supported banks (symbol → rule class)
   BANK_RULES = {
     brd: Rules::Brd,
+    ing: Rules::Ing,
     revolut: Rules::Revolut,
     unicredit: Rules::UniCredit
   }.freeze
