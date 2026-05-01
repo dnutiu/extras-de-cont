@@ -173,6 +173,10 @@ bundle exec ruby -Ilib:test test/extras_de_cont/rules/<bank>_rule_test.rb
 bundle exec rake standard
 ```
 
+### Step 8 — Update README
+
+Add the newly added bank to the `README.md` in the `Supported Banks` section.
+
 ### Checklist
 
 - [ ] Rule class created in `lib/extras_de_cont/rules/<bank>.rb`
