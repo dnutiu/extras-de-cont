@@ -14,7 +14,7 @@ end
 
 # puts ExtrasDeCont::Parser.new(file).text
 
-transactions = ExtrasDeCont.parse(file, bank: :revolut)
+transactions = ExtrasDeCont.parse(file, bank: :unicredit)
 
 transactions.each do |t|
   puts "#{t.date}, #{t.description}, #{t.amount}, #{t.currency}"

@@ -1,20 +1,23 @@
 # frozen_string_literal: true
 
-require "extras_de_cont/parser"
-require "extras_de_cont/rules/base"
-require "extras_de_cont/rules/brd"
-require "extras_de_cont/rules/ing"
-require "extras_de_cont/rules/revolut"
-require "extras_de_cont/rules/unicredit"
+
+require 'zeitwerk'
+loader = Zeitwerk::Loader.for_gem
+loader.inflector.inflect(
+  "unicredit" => "UniCredit"
+)
+loader.setup # ready!
+
+
 
 # The ExtrasDeCont module contains utilities for parsing bank statements.
 module ExtrasDeCont
   # Map of supported banks (symbol → rule class)
   BANK_RULES = {
-    brd: Rules::Brd,
-    ing: Rules::Ing,
-    revolut: Rules::Revolut,
-    unicredit: Rules::UniCredit
+    brd: ExtrasDeCont::Rules::Brd,
+    ing: ExtrasDeCont::Rules::Ing,
+    revolut: ExtrasDeCont::Rules::Revolut,
+    unicredit: ExtrasDeCont::Rules::UniCredit
   }.freeze
 
   class << self
@@ -28,8 +31,10 @@ module ExtrasDeCont
       rule_class = BANK_RULES[bank]
       raise ArgumentError, "Unsupported bank: #{bank}. Supported banks: #{BANK_RULES.keys.join(", ")}" unless rule_class
 
-      p = Parser.new(file)
+      p = ExtrasDeCont::Parser.new(file)
       p.parse_with(rule_class.new)
     end
   end
 end
+
+loader.eager_load # optionally

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "date"
-require "extras_de_cont/transaction"
 
 module ExtrasDeCont
   module Rules

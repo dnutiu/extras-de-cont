@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |s|
   s.name = "extras_de_cont"
-  s.version = "1.3.0"
+  s.version = "1.4.0"
   s.licenses = ["GPLv3"]
   s.summary = "A simple library which helps you extract transactions from a PDF bank statement."
   s.description = <<~TEXT
@@ -25,4 +25,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "pdf-reader", "~> 2.15"
+  s.add_dependency "zeitwerk", "~> 2.8"
 end
