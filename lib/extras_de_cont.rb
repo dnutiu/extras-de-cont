@@ -1,14 +1,11 @@
 # frozen_string_literal: true
-
-
 require 'zeitwerk'
+
 loader = Zeitwerk::Loader.for_gem
 loader.inflector.inflect(
   "unicredit" => "UniCredit"
 )
-loader.setup # ready!
-
-
+loader.setup
 
 # The ExtrasDeCont module contains utilities for parsing bank statements.
 module ExtrasDeCont
@@ -37,4 +34,4 @@ module ExtrasDeCont
   end
 end
 
-loader.eager_load # optionally
+loader.eager_load
