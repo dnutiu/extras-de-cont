@@ -1,3 +1,9 @@
+# v1.5.0
+
+- Add Revolut account-statement CSV parsing.
+- Include reverted transactions as offsetting entries and ignore pending rows.
+- Add stable transaction deduplication keys and `exclude:` support for overlapping imports.
+
 # v.1.3.0
 
 - Add support for parsing ING Bank statements in RON.

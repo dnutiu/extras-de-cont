@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module ExtrasDeCont
-  def parse: (String | Pathname | IO, bank: Symbol) -> Array[Transaction]
+  def parse: (String | Pathname | IO, bank: Symbol, ?exclude: Array[String | Transaction]) -> Array[Transaction]
 
   BANK_RULES: Hash[Symbol, untyped]
 end

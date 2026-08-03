@@ -24,6 +24,19 @@ transactions.each do |t|
 end
 ```
 
+Revolut CSV exports are supported with `:revolut_csv`:
+
+```ruby
+transactions = ExtrasDeCont.parse(csv_file, bank: :revolut_csv)
+```
+
+Completed and reverted rows are returned; pending rows are ignored. Reverted amounts are inverted so they offset the original transaction. To parse overlapping statements safely, pass the keys of transactions already imported:
+
+```ruby
+already_imported = imported_transactions.map(&:deduplication_key)
+transactions = ExtrasDeCont.parse(csv_file, bank: :revolut_csv, exclude: already_imported)
+```
+
 Or use the included entrypoint:
 
 ```bash
@@ -41,6 +54,7 @@ ruby -Ilib:test test/revolut_rule_test.rb
 | Bank      | Symbol       | Currencies | Features                                               |
 |-----------|--------------|---|--------------------------------------------------------|
 | Revolut   | `:revolut`   | RON, EUR, USD, GBP, PLN, CZK, HUF, BGN, TRY, UAH | Personal & Business, multi-section, symbol currencies  |
+| Revolut CSV | `:revolut_csv` | RON, EUR, USD, GBP, PLN, CZK, HUF, BGN, TRY, UAH | Completed/reverted rows, fees, duplicate exclusion |
 | UniCredit | `:unicredit` | RON, EUR | Romanian month names, page breaks, transaction markers |
 | BRD       | `:brd`       | RON, EUR | Below-line amounts, Romanian number format             |
 | ING       | `:ing`       | RON | Normal bank statements in RON                          |

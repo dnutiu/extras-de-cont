@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = "extras_de_cont"
-  s.version = "1.4.0"
+  s.version = "1.5.0"
   s.licenses = ["GPLv3"]
-  s.summary = "A simple library which helps you extract transactions from a PDF bank statement."
+  s.summary = "A library for extracting transactions from bank statements."
   s.description = <<~TEXT
-    A simple library which helps you extract transactions from a PDF bank statement.
+    A library for extracting transactions from PDF bank statements and Revolut CSV exports.
     Fine tuned for Romanian bank statements.
 
     Repository: https://github.com/dnutiu/extras-de-cont
@@ -25,5 +25,7 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_dependency "pdf-reader", "~> 2.15"
+  s.add_dependency "csv", "~> 3.3"
+  s.add_dependency "bigdecimal", "~> 3.1"
   s.add_dependency "zeitwerk", "~> 2.8"
 end

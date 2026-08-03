@@ -2,13 +2,14 @@
 
 module ExtrasDeCont
   class Transaction
-    # The fields of the Struct
     attr_reader date: Date
     attr_reader description: String
-    attr_reader amount: Float
+    attr_reader amount: Numeric
     attr_reader currency: String
+    attr_reader state: String?
 
-    # Constructor with keyword arguments (because you used keyword_init: true)
-    def initialize: (date: Date, description: String, amount: Float, currency: String) -> void
+    def initialize: (Date, String, Numeric, String, ?state: String?, ?deduplication_key: String?) -> void
+    def deduplication_key: () -> String
+    def reverted?: () -> bool
   end
 end
