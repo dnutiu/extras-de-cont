@@ -114,14 +114,10 @@ This project uses [Standard Ruby](https://github.com/standardrb/standard). Run `
 
 ## AI-Assisted Development
 
-This project supports AI-assisted development via [OpenCode](https://github.com/anomalyco/opencode).
+This project supports AI-assisted development.
 
 A skill is provided for adding new bank statement parsers. When using an AI coding assistant, it can load the skill 
 at `.agents/skills/add-bank-statement/SKILL.md` to guide the process. 
 The skill covers rule class creation, registration, RBS signatures, test patterns, and fixture anonymization.
-
-The project maintains a [MemPalace](https://github.com/anomalyco/mempalace) knowledge graph (`mempalace.yaml`) 
-that organizes the codebase into wings and rooms. AI agents can query this to learn about the project structure, 
-existing parsers, test patterns, and conventions without reading every file.
 
 For more context, see `AGENTS.md`.
